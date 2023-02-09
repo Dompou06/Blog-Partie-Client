@@ -24,34 +24,42 @@ function Registration() {
     const onSubmit = (data) => {
          axios.post('http://localhost:3001/auth', data)
      .then(() => {
-      navigate('/')
+      navigate('/login')
      }).catch(response => {   
        document.getElementById('message').innerHTML= response.response.data.error
      })
      }
   return (
-    <div className=''>
-      <h1>Inscription</h1>
+    <div className='pt-5'>
       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
         <Form className='d-flex flex-column shadow bg-body rounded form'>
-            <label>Nom d'utilisateur</label>
+          <div className='bg-moyen text-white text-center'>
+            <h4 className='fw-bold'>Inscription</h4>
+          </div>
+          <div className='d-flex'>
+            <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Nom d'utilisateur</label>
             <Field className='form-control'
             autoCo3mplete='off'
             id="inputAddPost" 
             name="username" 
             placeholder="Nom d'utilisateur" />
-            <label>Mot de passe</label>
+          </div>
+          <div className='d-flex'>
+            <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Mot de passe</label>
            <Field className='form-control'
             autoComplete='off'
             type="password"
             id="inputAddPost" 
             name="password" 
             placeholder="Mot de passe" />
+          </div>
+            
+            
             <div id='message' className='text-danger fw-bold text-center'>
              <ErrorMessage name="username" component='span' />
              <ErrorMessage name="password" component='span' />
              </div>
-            <button type='submit' className='btn btn-success'>Valider</button>
+            <button type='submit' className='btn btn-success btn-noradius fw-bold'>Valider</button>
         </Form>
       </Formik>
     </div>
