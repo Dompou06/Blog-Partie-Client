@@ -1,0 +1,73 @@
+@import "./sass/colors";
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+.App {
+ // text-align: center;
+ height: 100vh;
+  overflow: hidden !important;
+  .link {
+    text-decoration: none
+  }
+  .fw-mbold {
+    font-weight: 600;
+  }
+  .footer {
+    height: 7.7vh;
+  }
+  .fs-max {
+    font-size: 40vh;
+  }
+  .post-text {
+    height: 56vh;
+    overflow-y: auto;
+  }
+  .btn-1 {
+    width: 1px !important;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+.posts {
+  margin: 0 25vw;
+}
+.post {
+  margin: 0 5vw;
+  width: 90vw;
+  height: 75vh;
+}
+.form {
+  margin: 0 5vw;
+  width: 90vw;
+}
+.post-post {
+  width: 47vw;
+}
+.comment {
+  text-align: justify;
+}
+.cursor {
+  cursor: pointer;
+}
+.btn-noradius {
+  border-radius: 0 !important;
+}
+.hidden {
+  display: none;
+}
+.novisible {
+  visibility: hidden;
+}
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+.container-app {
+  height: 80vh;
+}
+.container-home {
+  height: 80vh;
+  overflow-y: auto;
+}

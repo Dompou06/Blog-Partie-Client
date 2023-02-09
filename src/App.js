@@ -1,25 +1,69 @@
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable react/react-in-jsx-scope */
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import './App.scss'
+import './index.scss'
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle'
+import { createPopper } from '@popperjs/core'
+
+import Header from './pages/Navbar'
+import Footer from './pages/Footer'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Registration from './pages/Registration'
+import { AuthContext } from './helpers/AuthContext'
 
 function App() {
+  createPopper
+  const [authState, setAuthState] = useState({
+    status: false,
+    id: 0,
+    username: ''
+  })
+  useEffect(() => {
+    if(localStorage.getItem('token')) {
+      axios.get('http://localhost:3001/auth/auth', {
+       headers: {
+        accessToken: localStorage.getItem('token')
+      }
+      })
+      .then(response => {
+        if(response.data.error) {
+          setAuthState({
+            status: false,
+            id: 0,
+            username: ''
+          })
+        } else {
+      setAuthState({
+        status: true,
+        id: response.data.id,
+        username: response.data.username
+      })
+    }
+      })
+    }
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App"> 
+    <AuthContext.Provider value={{authState, setAuthState}}>
+    <Router>
+      <Header />
+      <div className='container-app'>
+        <Routes>
+        <Route path="/" exact element={<Home/>} />
+        <Route path="/registration" exact element={<Registration/>} />
+        <Route path="/login" exact element={<Login/>} />
+        </Routes>
+        </div>
+        <Footer />
+      </Router>
+</AuthContext.Provider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
