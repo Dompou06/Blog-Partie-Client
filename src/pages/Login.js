@@ -37,23 +37,29 @@ function Login() {
             )
     }
   return (
-    <div>
-        <h1>Connection</h1>
+    <div className='pt-5'>
         <div className='d-flex flex-column shadow bg-body rounded form'>
-            <label>Nom d'utilisateur</label>
-            <input type="text"
+        <div className='bg-moyen text-white text-center'>
+            <h4 className='fw-bold'>Connection</h4>
+          </div>
+          <div className='d-flex'>
+           <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Nom d'utilisateur</label>
+            <input type="text" className='form-control'
             value={username}
              onChange={e => {
                 setUsername(e.target.value)
             }} />
-            <label>Mot de passe</label>
-            <input type="password"
+            </div>
+          <div className='d-flex'>
+            <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Mot de passe</label>
+            <input type="password" className='form-control'
             value={password}
              onChange={e => {
                 setPassword(e.target.value)
             }} />
-            <div id="message" className='text-danger fw-bold'></div>
-            <button onClick={login} className='btn btn-success mt-2'>Valider</button>
+            </div>
+            <div id="message" className='text-danger fw-bold text-center'></div>
+            <button onClick={login} className='btn btn-success btn-noradius'>Valider</button>
         </div>
     </div>
   )
