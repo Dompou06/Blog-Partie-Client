@@ -18,6 +18,7 @@ function Login() {
         }
        axios.post('http://localhost:3001/auth/login', data)
         .then(response => {
+          //console.log(response.data)
           localStorage.setItem('token', response.data.token)
           setAuthState({
             status: true,

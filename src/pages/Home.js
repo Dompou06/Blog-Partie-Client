@@ -91,7 +91,7 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
           {post.postText}</Link>
           <div className='d-flex bg-moyen rounded-bottom ps-2'>
           <Link to={`/profile/${post.UserId}`} className='link flex-fill text-white text-start d-flex justify-content-between'>
-            <div className='fw-bold'>{post.username}</div>
+            <div className='fw-bold'>{post.User.username}</div>
             <div className='pe-3'>créé le {post.created}</div>
             
           </Link>

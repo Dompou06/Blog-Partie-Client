@@ -1,14 +1,15 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
-//import axios from 'axios'
+import axios from 'axios'
 import { AuthContext } from '../helpers/AuthContext'
 
 function Navbar() {
   const { authState, setAuthState } = useContext(AuthContext)
     
-      /*useEffect(() => {
+      useEffect(() => {
         if(localStorage.getItem('token')) {
+         // console.log(localStorage.getItem('token'))
           axios.get('http://localhost:3001/auth/auth', {
            headers: {
             accessToken: localStorage.getItem('token')
@@ -29,8 +30,14 @@ function Navbar() {
           })
         }
           })
+        } else {
+          setAuthState({
+            status: false,
+            id: 0,
+            username: ''
+          })
         }
-      }, [])*/
+      }, [])
       
       const logout = () => {
         localStorage.removeItem('token')

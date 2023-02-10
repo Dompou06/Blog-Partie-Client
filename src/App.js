@@ -14,6 +14,9 @@ import Footer from './pages/Footer'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Registration from './pages/Registration'
+import Add from './pages/AddPost'
+import Post from './pages/Post'
+import Profile from './pages/Profile'
 import { AuthContext } from './helpers/AuthContext'
 
 function App() {
@@ -57,6 +60,9 @@ function App() {
         <Route path="/" exact element={<Home/>} />
         <Route path="/registration" exact element={<Registration/>} />
         <Route path="/login" exact element={<Login/>} />
+        <Route path="/add" exact element={<Add/>} />
+        <Route path="/post/:id" exact element={<Post/>} />
+        <Route path="/profile" exact element={<Profile/>} />
         </Routes>
         </div>
         <Footer />
