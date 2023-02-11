@@ -4,12 +4,12 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from '../helpers/AuthContext'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faThumbsUp, faThumbsDown, faPen } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
 function Profile() {
   const location = useLocation()
-  //console.log(location.state)
+ // console.log(location.state)
   const { authState } = useContext(AuthContext)
     let id = location.state
    // let { id } = useParams()
@@ -21,27 +21,31 @@ function Profile() {
     useEffect(() => {
             axios.get(`http://localhost:3001/auth/basicinfo/${id}`)
             .then(response => {
-                //console.log(response.data) 
+              //  console.log(response.data) 
                 setUsername(response.data.username)
+                setListOfPosts(response.data.Posts)
             })
-      if(!authState.status) {
-        axios.get(`http://localhost:3001/posts/notvalidate/byuserid/${id}`)
+      if(authState.status) {
+        /*axios.get(`http://localhost:3001/posts/notvalidate/byuserid/${id}`)
     .then(response => {
                // console.log(response.data) 
       setListOfPosts(response.data)
+    })*/
+    axios.get(`http://localhost:3001/posts/byuserid/${id}`, {
+      headers: {
+        accessToken: localStorage.getItem('token')
+      }
     })
-      } else {
-            axios.get(`http://localhost:3001/posts/byuserid/${id}`)
-            .then(response => {
-               // console.log(response.data.listOfPosts) 
-                setListOfPosts(response.data.listOfPosts)
-                setLikedPosts(
-                  response.data.likedPosts.map(like => {
-                    return like.PostId
-                  })
-                  )
-           })
-          }
+    .then(response => {
+       // console.log(response.data) 
+        setLikedPosts(
+          response.data.map(like => {
+            //console.log('Likes', like.Likes[0].PostId)
+            return like.Likes[0].PostId
+          })
+          )
+   })
+      } 
         }, [])
         const likeAPost = (postId) => {
           axios.post('http://localhost:3001/like', {'PostId': postId}, {
@@ -77,56 +81,45 @@ function Profile() {
         }
 
   return (
-       <div className='createPostContainer'>
-      <h1>{username}</h1>
-      {authState.status && (
-        <div className='d-flex flex-column shadow bg-body rounded ms-5 me-5 mb-3'>
-        <div className='bg-secondary text-white fw-bold'>Compte</div>
-        <div className='flex-grow-1 border-start border-end border-secondary' 
-    >
-      <div 
-        className='d-flex rounded'>
-          <div className='col-12 d-flex text-start bg-secondary'>
-          <div className='align-self-center text-white fw-bold ps-2 pe-2'>
-        Utilisateur
+       <div className='container-profile'>
+        <div className='d-flex flex-column shadow bg-body rounded form profile'>
+        <div className='bg-moyen text-white text-center'>
+            <h4 className='fw-bold'>{username}</h4>
           </div>
-          <div className='flex-fill bg-light fw-bold ps-2 d-flex justify-content-between'>
-            <div className='align-self-center'>{username}</div>
-            <button className='btn btn-info btn-noradius text-light fw-bold'>
-            <FontAwesomeIcon icon={faPen} />
-            </button>
-          </div>
-          <button className='align-self-center btn btn-secondary fw-bold'
+          {authState.status && (
+          <div className='d-flex mb-2'>
+            <div className='col-4 btn btn-secondary text-white fw-bold text-end pe-2 btn-noradius nocursor'>
+              <span className=''>Compte utilisateur</span>
+              </div>
+            <div className='flex-fill align-self-center fw-bold ps-2'>{username}</div>
+          <button className='btn btn-secondary fw-bold text-white btn-noradius'
           onClick={() => {
             navigate('/password')
           }}>
             Changer de mot de passe 
           </button>
           </div>
-        </div>
-        </div>
-        </div>
-      )}
-      <div className='d-flex flex-column shadow bg-body rounded ms-5 me-5 mb-3'>
-      <div className='bg-secondary text-white fw-bold'>Posts</div>
-    <div className='flex-grow-1 border-start border-end border-secondary d-flex flex-column' 
-    >
+          )}
+          <div className='bg-moyen text-white fw-bold text-center'>Posts</div>
+          <div className={authState.status ? 'profile-auth-posts' : 'profile-posts'}>
+          <div className='flex-grow-1 d-flex flex-column' 
+     >
       {listOfPosts.map((post, key) => {
         return (
         <div 
         className='d-flex bg-body rounded' 
         key={key}>
           <div className='col-12 d-flex justify-content-between text-start'>
-          <div className='align-self-start col-4 bg-secondary text-white fw-bold ps-2 pe-2 cursor'
+          <div className='align-self-start col-4 bg-moyen text-truncate text-white fw-bold ps-2 pe-2 border-end border-light cursor'
         onClick={() => {
           navigate(`/post/${post.id}`)
         }}>{post.title}</div>
-          <div className='flex-grow-1 text-truncate border-start border-end border-secondary ps-2 pe-2 cursor'
+          <div className='flex-grow-1 text-truncate border-start ps-2 pe-2 border-bottom border-moyen cursor'
         onClick={() => {
           navigate(`/post/${post.id}`)
         }}>{post.postText}</div>
-        <div className='align-self-end col-2 d-flex bg-secondary'>
-            <div className='flex-fill align-self-center d-flex justify-content-around text-warning'> 
+        <div className='align-self-end align-self-stretch col-2 d-flex bg-moyen'>
+            <div className='flex-fill align-self-stretch pt-1 d-flex justify-content-around text-warning border-bottom border-light'> 
             {post.Likes.length >= 1 ? <FontAwesomeIcon icon={faStar} /> :  
             <FontAwesomeIcon icon={farStar} />} 
             {post.Likes.length >= 2 ? <FontAwesomeIcon icon={faStar} /> :  
@@ -139,7 +132,7 @@ function Profile() {
             <FontAwesomeIcon icon={farStar} />} 
             </div>
             {authState.id != 0 && likedPosts != [] && (
-          <div className='bg-warning text-secondary cursor ps-1 pe-1'>
+          <div className='bg-warning text-secondary border-end border-moyen ps-1 pe-1 cursor'>
             {likedPosts.includes(post.id) ? <FontAwesomeIcon icon={faThumbsDown} onClick={() => {likeAPost(post.id)}} /> 
             : <FontAwesomeIcon icon={faThumbsUp} onClick={() => {likeAPost(post.id)}} />}
             </div>            
@@ -151,8 +144,10 @@ function Profile() {
       })
     }
     </div>
-      </div>
-      </div>
+          </div>
+        </div>
+        </div>
+     
   )
 }
 

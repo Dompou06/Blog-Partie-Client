@@ -17,6 +17,7 @@ import Registration from './pages/Registration'
 import Add from './pages/AddPost'
 import Post from './pages/Post'
 import Profile from './pages/Profile'
+import Error from './pages/Error'
 import { AuthContext } from './helpers/AuthContext'
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
         <Route path="/add" exact element={<Add/>} />
         <Route path="/post/:id" exact element={<Post/>} />
         <Route path="/profile" exact element={<Profile/>} />
+        <Route path="*" exact element={<Error/>} />
         </Routes>
         </div>
         <Footer />

@@ -49,6 +49,9 @@
 .cursor {
   cursor: pointer;
 }
+.nocursor {
+  cursor: context-menu !important;
+}
 .btn-noradius {
   border-radius: 0 !important;
 }
@@ -71,3 +74,18 @@
   height: 80vh;
   overflow-y: auto;
 }
+.container-profile {
+  height: 80vh;
+  .profile {
+    max-height: 77vh; 
+    .profile-auth-posts {
+      max-height: 77%;
+      overflow-y: auto;
+    }
+    .profile-posts {
+      max-height: 87%;
+      overflow-y: auto;
+    }
+  }
+}
+   

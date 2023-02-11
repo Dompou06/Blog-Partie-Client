@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../helpers/AuthContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
 function Home() {
+  let navigate = useNavigate()
   const { authState } = useContext(AuthContext)
     const [listOfPosts, setListOfPosts] = useState([])
     const [likedPosts, setLikedPosts] = useState([])
@@ -90,11 +91,14 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
          <Link to={`/post/${post.id}`} className='link text-dark border-start border-end border-moyen text-start text-start text-truncate p-2'>
           {post.postText}</Link>
           <div className='d-flex bg-moyen rounded-bottom ps-2'>
-          <Link to={`/profile/${post.UserId}`} className='link flex-fill text-white text-start d-flex justify-content-between'>
-            <div className='fw-bold'>{post.User.username}</div>
+          <div className='link flex-fill text-white text-start d-flex justify-content-between'
+          onClick={() => {
+            navigate('/profile', {state: post.UserId})
+           }}>
+            <div className='fw-bold cursor'>{post.User.username}</div>
             <div className='pe-3'>créé le {post.created}</div>
             
-          </Link>
+          </div>
           <div className='d-flex'>
             <div className='text-warning pe-2'> 
             {post.Likes.length >= 1 ? <FontAwesomeIcon icon={faStar} /> :  

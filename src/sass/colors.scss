@@ -10,8 +10,14 @@ background-color: darken($cyan, 20);
 .bg-clair {
 background-color: darken($cyan, 15);
 }
+.red {
+    background-color: red;
+}
 .btn-success {
 background-color: darken($green, 7) !important;
+}
+.btn-secondary {
+background-color: darken($cyan, 20) !important;
 }
 .btn-success:hover {
 background-color: darken($green, 3) !important;
