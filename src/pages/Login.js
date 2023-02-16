@@ -7,13 +7,13 @@ import { AuthContext } from '../helpers/AuthContext'
 function Login() {
   let navigate = useNavigate()
 
-    const [ username, setUsername ] = useState('')
+    const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const { setAuthState } = useContext(AuthContext)
 
     const login = () => {
         const data = {
-            username: username,
+            email: email,
             password: password
         }
        axios.post('http://localhost:3001/auth/login', data)
@@ -28,7 +28,7 @@ function Login() {
           navigate('/')
         })
         .catch(() => {
-                document.getElementById('message').innerHTML='Le nom d\'utilisateur et/ou le mot de passe est erroné'
+                document.getElementById('message').innerHTML='L\'email et/ou le mot de passe est erroné'
                 setAuthState({
                   status: false,
                   id: 0,
@@ -44,11 +44,11 @@ function Login() {
             <h4 className='fw-bold'>Connection</h4>
           </div>
           <div className='d-flex'>
-           <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Nom d'utilisateur</label>
-            <input type="text" className='form-control'
-            value={username}
+           <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Email</label>
+            <input type="email" className='form-control'
+            value={email}
              onChange={e => {
-                setUsername(e.target.value)
+                setEmail(e.target.value)
             }} />
             </div>
           <div className='d-flex'>
@@ -59,8 +59,9 @@ function Login() {
                 setPassword(e.target.value)
             }} />
             </div>
+            <button className='btn btn-secondary text-light btn-noradius'>Mot de passe oublié</button>
             <div id="message" className='text-danger fw-bold text-center'></div>
-            <button onClick={login} className='btn btn-success btn-noradius'>Valider</button>
+            <button onClick={login} className='btn btn-success fw-bold btn-noradius'>Valider</button>
         </div>
     </div>
   )

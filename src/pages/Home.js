@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../helpers/AuthContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faThumbsUp, faThumbsDown, faMessage } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
 function Home() {
@@ -31,6 +31,7 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
       }
     })
     .then(response => {
+      //console.log(response.data.listOfPosts)
       let lOP = response.data.listOfPosts
       const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
       lOP.forEach(post => {
@@ -88,12 +89,22 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
         key={key}>
          <Link to={`/post/${post.id}`} className='link bg-moyen text-white text-center fw-bold'>
           {post.title}</Link>
-         <Link to={`/post/${post.id}`} className='link text-dark border-start border-end border-moyen text-start text-start text-truncate p-2'>
-          {post.postText}</Link>
+         <Link to={`/post/${post.id}`} className='link text-dark border-start border-end border-moyen p-2 d-flex'>
+          <div className='flex-fill text-start text-truncate pe-2'>
+            {post.postText}
+            </div>
+        <div className="position-relative p-0 pe-1 text-moyen">
+        <FontAwesomeIcon icon={faMessage} />
+  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-clair">
+  {post.Comments.length}
+  </span>
+</div>
+          
+          </Link>
           <div className='d-flex bg-moyen rounded-bottom ps-2'>
           <div className='link flex-fill text-white text-start d-flex justify-content-between'
           onClick={() => {
-            navigate('/profile', {state: post.UserId})
+            navigate('/profile', {state: post.id})
            }}>
             <div className='fw-bold cursor'>{post.User.username}</div>
             <div className='pe-3'>créé le {post.created}</div>
@@ -113,7 +124,7 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
             <FontAwesomeIcon icon={farStar} />} 
             </div>
             {authState.id != 0 && likedPosts != [] && (
-          <div className='bg-warning text-fonce cursor ps-1 pe-1'>
+          <div className='bg-warning text-moyen cursor ps-1 pe-1'>
             {likedPosts.includes(post.id) ? <FontAwesomeIcon icon={faThumbsDown} onClick={() => {likeAPost(post.id)}} /> 
             : <FontAwesomeIcon icon={faThumbsUp} onClick={() => {likeAPost(post.id)}} />}
             </div>            

@@ -15,6 +15,8 @@ function Registration() {
     const validationSchema = Yup.object().shape({
         username: Yup.string()
         .required('Le champ Auteur doit être rempli'),
+        email: Yup.string().email()
+        .required('Le champ Email doit être rempli'),
         password: Yup.string()
         .min(10, 'Le champ Mot de passe doit comporter au moins dix caractères')
         .max(20, 'Le champ Mot de passe doit comporter moins de vingt caractères')
@@ -39,17 +41,23 @@ function Registration() {
           <div className='d-flex'>
             <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Nom d'utilisateur</label>
             <Field className='form-control'
-            autoCo3mplete='off'
-            id="inputAddPost" 
+            autoComplete='off'
             name="username" 
             placeholder="Nom d'utilisateur" />
+          </div>
+          <div className='d-flex'>
+            <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Email</label>
+            <Field className='form-control'
+            autoComplete='off'
+            fieldType="email"
+            name="email" 
+            placeholder="Email" />
           </div>
           <div className='d-flex'>
             <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Mot de passe</label>
            <Field className='form-control'
             autoComplete='off'
             type="password"
-            id="inputAddPost" 
             name="password" 
             placeholder="Mot de passe" />
           </div>
@@ -57,6 +65,7 @@ function Registration() {
             
             <div id='message' className='text-danger fw-bold text-center'>
              <ErrorMessage name="username" component='span' />
+             <ErrorMessage name="email" component='span' />
              <ErrorMessage name="password" component='span' />
              </div>
             <button type='submit' className='btn btn-success btn-noradius fw-bold'>Valider</button>

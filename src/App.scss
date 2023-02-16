@@ -61,6 +61,9 @@
 .novisible {
   visibility: hidden;
 }
+.noborder {
+  border: none;
+}
 .navbar-toggler:focus,
 .navbar-toggler:active,
 .navbar-toggler-icon:focus {
@@ -87,5 +90,12 @@
       overflow-y: auto;
     }
   }
+}
+.comments {
+  max-height: 87%;
+      overflow-y: auto;
+}
+.pt-02 {
+  padding-top: .4rem;
 }
    

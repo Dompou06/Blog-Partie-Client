@@ -92,7 +92,6 @@ const deletePost = () => {
     navigate('/')
   })
   }
-
     const initialValues = {
       commentBody: '',
       PostId: id
@@ -101,6 +100,7 @@ const deletePost = () => {
       commentBody: Yup.string().required('Le champ Commentaire doit être rempli'),
   })
  const onSubmit = (data, {setSubmitting, resetForm}) => {
+ // console.log('data', data)
   axios.post('http://localhost:3001/comments', data, {
     headers: {
       accessToken: localStorage.getItem('token')
@@ -110,12 +110,30 @@ const deletePost = () => {
         if(response.data.error) {
           document.getElementById('message').innerHTML = 'Conntectez-vous pour créer un commentaire'
         } else {
-          data.username = response.data.username
-       setComments([...comments, data])
+          data.UserId = authState.id
+          data.User = {}
+          data.User.username = response.data.username
+         // console.log(data)
+       setComments([data, ...comments])
      resetForm(initialValues)
     }
       })
   setSubmitting(false)
+}
+const likeAPost = () => {
+  axios.post('http://localhost:3001/like', {'PostId': id}, {
+    headers: {
+      accessToken: localStorage.getItem('token')
+    }
+  })
+ // console.log(postLenght)
+  if(postLiked) {
+  setPostLiked(false)
+  setPostLenght(postLenght + 1)
+} else {
+  setPostLiked(true)
+  setPostLenght(postLenght - 1)
+}
 }
 
 const deleteComment = (id) => {
@@ -167,7 +185,7 @@ const deleteComment = (id) => {
           <div className='flex-grow-1 border-start border-end border-moyen d-flex'>
               <div className='flex-fill col-12 ps-2 pe-2'>
             <div id='postText' className='text-start post-text'>{Post.postText}</div>
-            <textarea id='inputpostText' className='col-12 hidden'></textarea>
+            <textarea id='inputpostText' rows='13' className='col-12 hidden'></textarea>
             </div>
           {authState.username === Post.username ? (
             <div className='align-self-end d-flex flex-column'>
@@ -197,7 +215,7 @@ const deleteComment = (id) => {
           <div className='d-flex bg-moyen rounded-bottom'>
           <div className='flex-fill align-self-center d-flex pe-3'>
             <div className='flex-fill align-self-center text-white text-start ps-2 cursor d-flex justify-content-between' onClick={() => {
-          navigate('/profile', {state: Post.UserId})
+          navigate('/profile', {state: Post.id})
          }}>
           <div className='fw-bold'>{Post.username}</div> 
           <div>créé le {Post.createdAt}</div>
@@ -219,14 +237,16 @@ const deleteComment = (id) => {
             </div>
             </div>
             {authState.status && (
-          <button className='btn btn-warning btn-noradius text-fonce'>{ postLiked ? <FontAwesomeIcon icon={faThumbsUp} /> : <FontAwesomeIcon icon={faThumbsDown} /> }</button>
+          <button className='btn bg-warning btn-noradius text-secondary'
+          onClick={() => {likeAPost()}}>
+            { postLiked ? <FontAwesomeIcon icon={faThumbsUp} /> : <FontAwesomeIcon icon={faThumbsDown} /> }</button>
             )}
             </div>
     </div>
     
     <div className='flex-fill align-items-en ps-5 pb-3 d-flex flex-column'>
       <div className='bg-clair text-light text-center fw-bold mb-2'>Commentaires<button className='btn btn-1 novisible'>i</button></div>
-      <div className='flex-grow-1'>
+      <div className='flex-grow-1 comments'>
       {comments.map((comment, key) => {
         return <div 
         className='d-flex flex-column mb-2 shadow bg-body rounded' 
@@ -234,10 +254,10 @@ const deleteComment = (id) => {
           <div className='bg-clair text-light text-start fs-6 ps-2 fw-bold flex-fill'
            onClick={() => {
             navigate(`/profile/${comment.UserId}`)
-           }}>{comment.username}</div>
+           }}>{comment.User.username}</div>
           <div className='d-flex'>
             <div className='flex-fill text-start fs-6 ps-2 pe-2 comment'>{comment.commentBody}</div>
-            {authState.username === comment.username && (
+            {authState.id === comment.UserId && (
             <button className='btn btn-danger btn-noradius fs-6 p-1 pt-0 pb-0 fw-bold' onClick={() => {deleteComment(comment.id)}}>x</button>
             )}
           </div>

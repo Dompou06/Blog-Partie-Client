@@ -28,6 +28,9 @@ color: darken($cyan, 30);
 .text-moyen {
 color: darken($cyan, 20);
 }
+.text-secondary {
+    color: darken($cyan, 20) !important;
+}
 .border-moyen {
 border: solid 1px darken($cyan, 20);
 }

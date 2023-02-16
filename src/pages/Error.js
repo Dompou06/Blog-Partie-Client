@@ -6,7 +6,7 @@ import { faPersonDigging, faFaceSurprise } from '@fortawesome/free-solid-svg-ico
 
 function Error() {
     const location = useLocation()
-    console.log(location.state)
+    //console.log(location.state)
     const [message, setMessage] = useState('Erreur')
     useEffect(() => {
         if(location.state) {

@@ -1,12 +1,14 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { useContext, useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useState, useContext, useEffect } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { AuthContext } from '../helpers/AuthContext'
 
 function Navbar() {
   const { authState, setAuthState } = useContext(AuthContext)
-    
+  const [ actived, setActived ] = useState(false)
+  let navigate = useNavigate()
+ 
       useEffect(() => {
         if(localStorage.getItem('token')) {
          // console.log(localStorage.getItem('token'))
@@ -38,7 +40,10 @@ function Navbar() {
           })
         }
       }, [])
-      
+      const linked = () => {
+        setActived(true)
+        navigate('/profile', {state: `user${authState.id}`})
+      }
       const logout = () => {
         localStorage.removeItem('token')
         setAuthState({
@@ -82,11 +87,14 @@ function Navbar() {
           <span data-bs-toggle="collapse" data-bs-target="#navbarNav">Ajouter un post</span>
           </NavLink>
         </li>
-          <li className="nav-item">
-          <NavLink to={`/profile/${authState.id}`}
-  className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
-           <span data-bs-toggle="collapse" data-bs-target="#navbarNav">{authState.username}</span>
-          </NavLink>
+          <li className='nav-item'>
+          <div onClick={() => {
+            linked()
+          }}>
+    <span 
+  className={actived ? 'nav-link active' : 'nav-link'} data-bs-toggle="collapse" data-bs-target="#navbarNav">{authState.username} {actived}</span>
+    </div>
+           
           </li>
         <li className="nav-item text-white cursor" onClick={logout}>
         <span data-bs-toggle="collapse" data-bs-target="#navbarNav" className='nav-link'>Déconnection</span>
