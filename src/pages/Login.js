@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState, useContext } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../helpers/AuthContext'
 
 function Login() {
@@ -59,7 +59,7 @@ function Login() {
                 setPassword(e.target.value)
             }} />
             </div>
-            <button className='btn btn-secondary text-light btn-noradius'>Mot de passe oublié</button>
+            <Link to='/forget' className='btn btn-secondary text-light btn-noradius'>Mot de passe oublié</Link>
             <div id="message" className='text-danger fw-bold text-center'></div>
             <button onClick={login} className='btn btn-success fw-bold btn-noradius'>Valider</button>
         </div>

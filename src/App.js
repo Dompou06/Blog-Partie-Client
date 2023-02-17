@@ -18,6 +18,8 @@ import Add from './pages/AddPost'
 import Post from './pages/Post'
 import Profile from './pages/Profile'
 import Error from './pages/Error'
+import Forget from './pages/Forget'
+import NewPassword from './pages/NewPassword'
 import { AuthContext } from './helpers/AuthContext'
 
 function App() {
@@ -61,6 +63,8 @@ function App() {
         <Route path="/" exact element={<Home/>} />
         <Route path="/registration" exact element={<Registration/>} />
         <Route path="/login" exact element={<Login/>} />
+        <Route path="/forget" exact element={<Forget/>} />
+        <Route path="/resetpassword/:id" exact element={<NewPassword/>} />
         <Route path="/add" exact element={<Add/>} />
         <Route path="/post/:id" exact element={<Post/>} />
         <Route path="/profile" exact element={<Profile/>} />
