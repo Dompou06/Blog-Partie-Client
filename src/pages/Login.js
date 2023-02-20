@@ -27,8 +27,9 @@ function Login() {
           })
           navigate('/')
         })
-        .catch(() => {
-                document.getElementById('message').innerHTML='L\'email et/ou le mot de passe est erroné'
+        .catch((err) => {
+          //console.log(err.response.data)
+                document.getElementById('message').innerHTML=err.response.data.error
                 setAuthState({
                   status: false,
                   id: 0,
