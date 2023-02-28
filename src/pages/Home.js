@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../helpers/AuthContext'
+//import { AuthContext } from '../helpers/AuthContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faThumbsUp, faThumbsDown, faMessage } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faMessage } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
 function Home() {
   let navigate = useNavigate()
-  const { authState } = useContext(AuthContext)
+ // const { authState } = useContext(AuthContext)
     const [listOfPosts, setListOfPosts] = useState([])
-    const [likedPosts, setLikedPosts] = useState([])
+    //const [likedPosts, setLikedPosts] = useState([])
    
   useEffect(() => {
     //if(localStorage.getItem('token')) {
-      if(!authState.status) {
-        axios.get('http://localhost:3001/posts/notvalidate')
+     // if(!authState.status) {
+        axios.get('http://localhost:3001/posts')
     .then(response => {
       let lOP = response.data
       const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
@@ -24,7 +24,7 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
       })   
       setListOfPosts(lOP)
     })
-      } else {
+  /*} else {
     axios.get('http://localhost:3001/posts', {
       headers: {
         accessToken: localStorage.getItem('token')
@@ -37,23 +37,21 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
       lOP.forEach(post => {
 post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
       })
-     setListOfPosts(lOP)
-     setLikedPosts(
+     setListOfPosts(lOP)*/
+    /* setLikedPosts(
       response.data.likedPosts.map(like => {
         //console.log(like.PostId)
         return like.PostId
       })
       )
-    })
-  }
+    })*/
+  
   },[])
  
-  const likeAPost = (postId) => {
-    axios.post('http://localhost:3001/like', {'PostId': postId}, {
-      headers: {
-        accessToken: localStorage.getItem('token')
-      }
-    })
+  /*const likeAPost = (postId) => {
+    axios.post('http://localhost:3001/like', {'PostId': postId}, 
+    
+    )
     .then(response => {
       setListOfPosts(
       listOfPosts.map(post => {
@@ -80,7 +78,7 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
       }
     })
 
-  }
+  }*/
   return (
     <div className='container-home'>
       {listOfPosts.map((post, key) => {
@@ -104,7 +102,7 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
           <div className='d-flex bg-moyen rounded-bottom ps-2'>
           <div className='link flex-fill text-white text-start d-flex justify-content-between'
           onClick={() => {
-            navigate('/profile', {state: post.id})
+            navigate('/author', {state: post.id})
            }}>
             <div className='fw-bold cursor'>{post.User.username}</div>
             <div className='pe-3'>créé le {post.created}</div>
@@ -123,12 +121,12 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
             {post.Likes.length >= 5 ? <FontAwesomeIcon icon={faStar} /> :  
             <FontAwesomeIcon icon={farStar} />} 
             </div>
-            {authState.id != 0 && likedPosts != [] && (
+            {/*authState.id != 0 && likedPosts != [] && (
           <div className='bg-warning text-moyen cursor ps-1 pe-1'>
             {likedPosts.includes(post.id) ? <FontAwesomeIcon icon={faThumbsDown} onClick={() => {likeAPost(post.id)}} /> 
             : <FontAwesomeIcon icon={faThumbsUp} onClick={() => {likeAPost(post.id)}} />}
             </div>            
-            )}
+            )*/}
         </div>
         </div>
           </div>

@@ -16,17 +16,19 @@ import Login from './pages/Login'
 import Registration from './pages/Registration'
 import Add from './pages/AddPost'
 import Post from './pages/Post'
+import Author from './pages/Author'
 import Profile from './pages/Profile'
 import Error from './pages/Error'
 import Forget from './pages/Forget'
 import NewPassword from './pages/NewPassword'
 import { AuthContext } from './helpers/AuthContext'
 
+axios.defaults.withCredentials = true
+ 
 function App() {
   createPopper
   const [authState, setAuthState] = useState({
     status: false,
-    id: 0,
     username: ''
   })
   useEffect(() => {
@@ -35,21 +37,33 @@ function App() {
        headers: {
         accessToken: localStorage.getItem('token')
       }
-      })
+      }, { withCredentials: true })
       .then(response => {
         if(response.data.error) {
+         // console.log('errorresponseauth', response.data.error)
+          localStorage.removeItem('token')
           setAuthState({
             status: false,
-            id: 0,
             username: ''
           })
         } else {
       setAuthState({
         status: true,
-        id: response.data.id,
         username: response.data.username
       })
-    }
+    } 
+      })
+      .catch(() => {
+        localStorage.removeItem('token')
+        setAuthState({
+          status: false,
+          username: ''
+        })
+      })
+    } else {
+      setAuthState({
+        status: false,
+        username: ''
       })
     }
   }, [])
@@ -67,6 +81,7 @@ function App() {
         <Route path="/resetpassword/:id" exact element={<NewPassword/>} />
         <Route path="/add" exact element={<Add/>} />
         <Route path="/post/:id" exact element={<Post/>} />
+        <Route path="/author" exact element={<Author/>} />
         <Route path="/profile" exact element={<Profile/>} />
         <Route path="*" exact element={<Error/>} />
         </Routes>

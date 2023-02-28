@@ -16,7 +16,7 @@ function Post() {
     const [postLenght, setPostLenght] = useState(0)
     const [postLiked, setPostLiked] = useState(true)
     const [comments, setComments] = useState([])
-    const { authState } = useContext(AuthContext)
+    const { authState, setAuthState } = useContext(AuthContext)
 
     useEffect(() => { 
         const getPost = async () => {
@@ -72,14 +72,32 @@ axios.put(`http://localhost:3001/posts/byId/${id}`, data, {
   headers: {
     accessToken: localStorage.getItem('token')
   }
-}).then(() => {
+}, { withCredentials: true })
+.then(response => {
+ // console.log('response', response)
+if(response.data.token) {
+  localStorage.setItem('token', response.data.token)
+  setPost({...Post, title: response.data.post.title,
+    postText: response.data.post.postText}) 
+} else {
+  setPost({...Post, title: response.data.title,
+    postText: response.data.postText}) 
+}
   //variable en propriété
-  setPost({...Post, [option]: newText}) 
+ // setPost({...Post, [option]: newText}) 
 document.getElementById(option).classList.remove('hidden')
 document.getElementById(`edit${option}`).classList.remove('hidden')
 document.getElementById(`input${option}`).value = ''
 document.getElementById(`update${option}`).classList.add('hidden')
 document.getElementById(`input${option}`).classList.add('hidden')
+})
+.catch(() => {
+  setAuthState({
+    status: false,
+    username: ''
+  })
+  localStorage.removeItem('token')
+  navigate('/login')
 })
 }
 const deletePost = () => {
@@ -88,7 +106,10 @@ const deletePost = () => {
     headers: {
       accessToken: localStorage.getItem('token')
     }
-  }).then(() => {
+  }, { withCredentials: true }).then(response => {
+    if(response.data.token) {
+      localStorage.setItem('token', response.data.token)
+    }
     navigate('/')
   })
   }
@@ -105,18 +126,32 @@ const deletePost = () => {
     headers: {
       accessToken: localStorage.getItem('token')
     }
-  })
+  }, { withCredentials: true })
       .then(response => {
+       // console.log(response)
         if(response.data.error) {
           document.getElementById('message').innerHTML = 'Conntectez-vous pour créer un commentaire'
         } else {
-          data.UserId = authState.id
           data.User = {}
+          if(response.data.token) {
+            localStorage.setItem('token', response.data.token)
+          data.User.username = response.data.item.username
+          } else {
           data.User.username = response.data.username
+          }
+         // data.UserId = authState.id
+          
          // console.log(data)
        setComments([data, ...comments])
      resetForm(initialValues)
     }
+      }).catch(() => {
+       // document.getElementById('message').innerHTML = 'Conntectez-vous pour créer un commentaire'
+        setAuthState({
+          status: false,
+          username: ''
+        })
+        localStorage.removeItem('token')
       })
   setSubmitting(false)
 }
@@ -125,15 +160,27 @@ const likeAPost = () => {
     headers: {
       accessToken: localStorage.getItem('token')
     }
-  })
- // console.log(postLenght)
-  if(postLiked) {
+  }, { withCredentials: true })
+  .then(response => {
+    if(response.data.token) {
+      localStorage.setItem('token', response.data.token)
+    } 
+    if(postLiked) {
   setPostLiked(false)
   setPostLenght(postLenght + 1)
 } else {
   setPostLiked(true)
   setPostLenght(postLenght - 1)
-}
+} // console.log(postLenght)
+
+  }).catch(() => {
+    setAuthState({
+      status: false,
+      username: ''
+    })
+    localStorage.removeItem('token')
+  })
+ 
 }
 
 const deleteComment = (id) => {
@@ -141,10 +188,19 @@ const deleteComment = (id) => {
     headers: {
       accessToken: localStorage.getItem('token')
     }
-  }).then(() => {
+  }, { withCredentials: true }).then(response => {
+    if(response.data.token) {
+      localStorage.setItem('token', response.data.token)
+    }
     setComments(comments.filter(comment => {
       return comment.id != id
     }))
+  }).catch(() => {
+    setAuthState({
+      status: false,
+      username: ''
+    })
+    localStorage.removeItem('token')
   })
 }
   return (
@@ -215,7 +271,7 @@ const deleteComment = (id) => {
           <div className='d-flex bg-moyen rounded-bottom'>
           <div className='flex-fill align-self-center d-flex pe-3'>
             <div className='flex-fill align-self-center text-white text-start ps-2 cursor d-flex justify-content-between' onClick={() => {
-          navigate('/profile', {state: Post.id})
+          navigate('/author', {state: Post.id})
          }}>
           <div className='fw-bold'>{Post.username}</div> 
           <div>créé le {Post.createdAt}</div>
@@ -253,11 +309,11 @@ const deleteComment = (id) => {
         key={key}>
           <div className='bg-clair text-light text-start fs-6 ps-2 fw-bold flex-fill'
            onClick={() => {
-            navigate(`/profile/${comment.UserId}`)
+            navigate('/author', {state: `comment${comment.id}`})
            }}>{comment.User.username}</div>
           <div className='d-flex'>
             <div className='flex-fill text-start fs-6 ps-2 pe-2 comment'>{comment.commentBody}</div>
-            {authState.id === comment.UserId && (
+            {authState.username === comment.User.username && (
             <button className='btn btn-danger btn-noradius fs-6 p-1 pt-0 pb-0 fw-bold' onClick={() => {deleteComment(comment.id)}}>x</button>
             )}
           </div>

@@ -3,54 +3,81 @@ import { useState, useContext, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { AuthContext } from '../helpers/AuthContext'
+//import Cookies from 'universal-cookie'
+
+//axios.defaults.withCredentials = true
 
 function Navbar() {
   const { authState, setAuthState } = useContext(AuthContext)
   const [ actived, setActived ] = useState(false)
   let navigate = useNavigate()
- 
+  //const cookies = new Cookies()
+
       useEffect(() => {
-        if(localStorage.getItem('token')) {
-         // console.log(localStorage.getItem('token'))
-          axios.get('http://localhost:3001/auth/auth', {
+        //console.log(cookies.get('token'))
+       // if(localStorage.getItem('token')) {
+        if(authState.status) {
+          //console.log('authState', authState)
+          axios.get('http://localhost:3001/auth/auth', 
+          {
            headers: {
             accessToken: localStorage.getItem('token')
           }
-          })
+          }, { withCredentials: true }
+          )
           .then(response => {
             if(response.data.error) {
               setAuthState({
                 status: false,
-                id: 0,
                 username: ''
               })
             } else {
+              if(response.data.token) {
+                localStorage.setItem('token', response.data.token)
           setAuthState({
             status: true,
-            id: response.data.id,
+                username: response.data.response.username
+          })
+              } else {
+          setAuthState({
+            status: true,
             username: response.data.username
           })
         }
+        }
           })
-        } else {
+          .catch(() => {
+           // console.log('response', response.response.data)
+            setAuthState({
+              status: false,
+              username: ''
+            })
+          })
+         } else {
           setAuthState({
             status: false,
-            id: 0,
             username: ''
           })
         }
       }, [])
       const linked = () => {
         setActived(true)
-        navigate('/profile', {state: `user${authState.id}`})
+        navigate('/profile')
       }
       const logout = () => {
         localStorage.removeItem('token')
+       axios.get('http://localhost:3001/auth/logout',  
+       {
+        headers: {
+         accessToken: localStorage.getItem('token')
+       }
+       }, { withCredentials: true }
+          )
         setAuthState({
           status: false,
-          id: 0,
           username: ''
         })
+        navigate('/')
       }
     return ( 
           <nav className="navbar navbar-expand-lg navbar-dark bg-fonce mb-3">
@@ -92,7 +119,8 @@ function Navbar() {
             linked()
           }}>
     <span 
-  className={actived ? 'nav-link active' : 'nav-link'} data-bs-toggle="collapse" data-bs-target="#navbarNav">{authState.username} {actived}</span>
+  className={actived ? 'nav-link active' : 'nav-link'} data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    {authState.username} {actived}</span>
     </div>
            
           </li>

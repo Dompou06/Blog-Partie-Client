@@ -28,9 +28,16 @@ function AddPost() {
           headers: {
             accessToken: localStorage.getItem('token')
           } 
-        })
+        }, { withCredentials: true })
     .then(response => {
-      navigate(`/post/${response.data}`)
+      let idPost = ''
+      if(response.data.token) {
+        localStorage.setItem('token', response.data.token)
+        idPost = response.data.id
+      } else {
+        idPost = response.data
+      }
+      navigate(`/post/${idPost}`)
     })
     }
     

@@ -1,63 +1,69 @@
 import React, { useState, useEffect, useContext } from 'react'
 //import { useParams, useNavigate, useLocation } from 'react-router-dom'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../helpers/AuthContext'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faThumbsUp, faThumbsDown, faPen, faCheck, faMessage } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faPen, faCheck, faMessage } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
 function Profile() {
-  const location = useLocation()
   //console.log(location.state)
-  const { authState } = useContext(AuthContext)
-    let id = location.state
-   // let { id } = useParams() for Link
+  const { authState, setAuthState } = useContext(AuthContext)
     const [author, setAuthor] = useState({})
-    const [right, setRight] = useState(false)
     const [listOfPosts, setListOfPosts] = useState([])
-    const [likedPosts, setLikedPosts] = useState([])
+   // const [likedPosts, setLikedPosts] = useState([])
     let navigate = useNavigate()
 
     useEffect(() => {
-            axios.get(`http://localhost:3001/auth/basicinfo/${id}`)
-            .then(response => {
-                //console.log(response.data) 
-                setAuthor({
-                  username: response.data.username,
-                  presentation: response.data.presentation,
-                })
-                setListOfPosts(response.data.Posts)
-            })
-      if(authState.status) {
-        /*axios.get(`http://localhost:3001/posts/notvalidate/byuserid/${id}`)
-    .then(response => {
-               // console.log(response.data) 
-      setListOfPosts(response.data)
-    })*/
-    axios.get(`http://localhost:3001/posts/byuserid/${id}`, {
-      headers: {
-        accessToken: localStorage.getItem('token')
-      }
-    })
-    .then(response => {
-        //console.log(response.data) 
-        setRight(response.data.right)
-        setLikedPosts(
-          response.data.likedPosts.map(like => {
-            //console.log('Likes', like.Likes[0].PostId)
-            return like.Likes[0].PostId
+        axios.get('http://localhost:3001/auth/me', {
+           headers: {
+             accessToken: localStorage.getItem('token')
+           }
+         }, { withCredentials: true })
+         .then(response => {
+//console.log('yes', response.data)
+let posts = []          
+if(response.data.token) {
+            localStorage.setItem('token', response.data.token)
+          setAuthor({
+            username: response.data.basicInfo.username,
+            presentation: response.data.basicInfo.presentation,
           })
-          )
-   })
-      } 
+          setAuthState({
+            status: true,
+            username: response.data.basicInfo.username
+          })
+          posts = response.data.basicInfo.Posts
+          } else {
+          setAuthor({
+            username: response.data.username,
+            presentation: response.data.presentation,
+          })
+          posts = response.data.Posts
+          }
+          /*setAuthor({
+            username: response.data.username,
+            presentation: response.data.presentation,
+          })*/
+          setListOfPosts(posts)
+         }).catch(() => {
+          //console.log('no', response)
+          setAuthState({
+            status: false,
+            username: ''
+          })
+          localStorage.removeItem('token')
+          navigate('/')
+        }
+         )
         }, [])
-        const likeAPost = (postId) => {
+       /* const likeAPost = (postId) => {
           axios.post('http://localhost:3001/like', {'PostId': postId}, {
             headers: {
               accessToken: localStorage.getItem('token')
             }
-          })
+          }, { withCredentials: true })
           .then(response => {
             setListOfPosts(
             listOfPosts.map(post => {
@@ -83,7 +89,7 @@ function Profile() {
               setLikedPosts([...likedPosts, postId])
             }
           })    
-        }
+        }*/
         const edit = (option) => {
           document.getElementById(option).classList.add('hidden')
 document.getElementById(`edit${option}`).classList.add('hidden')
@@ -102,7 +108,10 @@ const update = (option) => {
         headers: {
           accessToken: localStorage.getItem('token')
         }
-      }).then(() => {
+      }, { withCredentials: true }).then(response => {
+        if(response.data.token) {
+          localStorage.setItem('token', response.data.token)
+        }
         //variable en propriété
         setAuthor({...author, [option]: newPresentation}) 
       document.getElementById(option).classList.remove('hidden')
@@ -134,11 +143,10 @@ const update = (option) => {
             <div className='flex-fill align-self-center ps-2 d-flex'>
               <div className='flex-fill col-12'>
               <div id='presentation' className='col-12 pt-2'>{author.presentation}</div>
-              {right && (<textarea id='inputpresentation' rows="1" className='col-12 noborder hidden'>
+             <textarea id='inputpresentation' rows="1" className='col-12 noborder hidden'>
 
-              </textarea>)}
+              </textarea>
            </div> 
-           {right && (
                 <div>
                 <div id='editpresentation'>
               <button className='btn btn-info btn-noradius text-light fw-bold'
@@ -158,7 +166,6 @@ const update = (option) => {
               </button>
               </div>
               </div>
-              )}
               </div>
           </div>
           <div className='bg-moyen text-white fw-bold text-center'>Posts</div>
@@ -205,12 +212,12 @@ const update = (option) => {
             {post.Likes.length >= 5 ? <FontAwesomeIcon icon={faStar} /> :  
             <FontAwesomeIcon icon={farStar} />} 
             </div>
-            {authState.id != 0 && likedPosts != [] && (
+            {/*authState.id != 0 && likedPosts != [] && (
           <div className='bg-warning text-secondary border-end border-moyen ps-1 pe-1 cursor'>
             {likedPosts.includes(post.id) ? <FontAwesomeIcon icon={faThumbsDown} onClick={() => {likeAPost(post.id)}} /> 
             : <FontAwesomeIcon icon={faThumbsUp} onClick={() => {likeAPost(post.id)}} />}
             </div>            
-            )}
+            )*/}
         </div>
         </div>
         </div>

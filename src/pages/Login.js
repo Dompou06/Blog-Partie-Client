@@ -3,36 +3,44 @@ import React, { useState, useContext } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../helpers/AuthContext'
+//import Cookies from 'universal-cookie'
+    axios.defaults.withCredentials = true
 
 function Login() {
   let navigate = useNavigate()
+ // const cookies = new Cookies()
 
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
+    const [ rememberMe, setRememberMe ] = useState(false)
+   //const { authState, setAuthState } = useContext(AuthContext)
     const { setAuthState } = useContext(AuthContext)
 
     const login = () => {
         const data = {
             email: email,
-            password: password
+            password: password,
+            remember: rememberMe
         }
-       axios.post('http://localhost:3001/auth/login', data)
+       axios.post('http://localhost:3001/auth/login', data, { withCredentials: true })
         .then(response => {
-          //console.log(response.data)
+         //console.log('token', cookies.get('token'))
+
+         // console.log(response.data)
           localStorage.setItem('token', response.data.token)
           setAuthState({
             status: true,
-            id: response.data.id,
             username: response.data.username
           })
+          //cookies.set('token', 'Pacman', { sameSite: 'strict', path: '/', expires: new Date(Date.now()+2000), httpOnly: true })
           navigate('/')
         })
         .catch((err) => {
-          //console.log(err.response.data)
+         // console.log(err)
                 document.getElementById('message').innerHTML=err.response.data.error
                 setAuthState({
                   status: false,
-                  id: 0,
+                //  id: 0,
                   username: ''
                 })
             }
@@ -57,10 +65,23 @@ function Login() {
             <input type="password" className='form-control'
             value={password}
              onChange={e => {
-                setPassword(e.target.value)
+              setPassword(e.target.value)
             }} />
             </div>
+            <div className='d-flex bg-moyen'>
+              <div className='btn btn-secondary text-light btn-noradius novisible'>Mot de passe oublié</div>
+              <div className='flex-fill align-self-center d-flex justify-content-center'>
+                <input type='checkbox' className='no-border'
+            value={rememberMe}
+             onChange={e => {
+              setRememberMe(e.target.checked)
+            }}  />
+                <label className='text-light ms-2'>Se souvenir de moi</label></div>
+              <div>
             <Link to='/forget' className='btn btn-secondary text-light btn-noradius'>Mot de passe oublié</Link>
+              </div>
+
+            </div>
             <div id="message" className='text-danger fw-bold text-center'></div>
             <button onClick={login} className='btn btn-success fw-bold btn-noradius'>Valider</button>
         </div>
