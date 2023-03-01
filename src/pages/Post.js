@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
 import { AuthContext } from '../helpers/AuthContext'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faThumbsUp, faThumbsDown, faPen, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
+
+import Comments from './Comments'
 
 function Post() {
     let { id } = useParams()
@@ -15,7 +15,7 @@ function Post() {
     const [Post, setPost] = useState({})
     const [postLenght, setPostLenght] = useState(0)
     const [postLiked, setPostLiked] = useState(true)
-    const [comments, setComments] = useState([])
+  //  const [comments, setComments] = useState([])
     const { authState, setAuthState } = useContext(AuthContext)
 
     useEffect(() => { 
@@ -44,13 +44,13 @@ function Post() {
            // console.log(authState)
         }
         getPost()    
-        const getComments = async () => {
+       /* const getComments = async () => {
             const response = await
             axios.get(`http://localhost:3001/comments/${id}`)
            // console.log(response.data)
             setComments(response.data)
         }
-        getComments()   
+        getComments() */  
     }, [])
 const editPost = (option) => {
 document.getElementById(option).classList.add('hidden')
@@ -113,7 +113,7 @@ const deletePost = () => {
     navigate('/')
   })
   }
-    const initialValues = {
+   /* const initialValues = {
       commentBody: '',
       PostId: id
   }
@@ -154,7 +154,7 @@ const deletePost = () => {
         localStorage.removeItem('token')
       })
   setSubmitting(false)
-}
+}*/
 const likeAPost = () => {
   axios.post('http://localhost:3001/like', {'PostId': id}, {
     headers: {
@@ -183,7 +183,7 @@ const likeAPost = () => {
  
 }
 
-const deleteComment = (id) => {
+/*const deleteComment = (id) => {
   axios.delete(`http://localhost:3001/comments/${id}`, {
     headers: {
       accessToken: localStorage.getItem('token')
@@ -202,7 +202,7 @@ const deleteComment = (id) => {
     })
     localStorage.removeItem('token')
   })
-}
+}*/
   return (
     <div className='d-flex post'>
     <div 
@@ -300,8 +300,9 @@ const deleteComment = (id) => {
             </div>
     </div>
     
-    <div className='flex-fill align-items-en ps-5 pb-3 d-flex flex-column'>
-      <div className='bg-clair text-light text-center fw-bold mb-2'>Commentaires<button className='btn btn-1 novisible'>i</button></div>
+    <div className='flex-fill '>
+      <Comments data={id} />
+      {/*<div className='bg-clair text-light text-center fw-bold mb-2'>Commentaires<button className='btn btn-1 novisible'>i</button></div>
       <div className='flex-grow-1 comments'>
       {comments.map((comment, key) => {
         return <div 
@@ -320,8 +321,8 @@ const deleteComment = (id) => {
           </div>
 
       })}
-      </div>
-      {authState.status && (
+    </div>*/}
+      {/*authState.status && (
       <Formik initialValues={initialValues} onSubmit={onSubmit} 
       validationSchema={validationSchema}>
         <Form className='d-flex flex-column'>
@@ -337,7 +338,7 @@ const deleteComment = (id) => {
             <button type='submit' className='btn btn-noradius rounded-bottom btn-success fw-bold'>Valider</button>
         </Form>
       </Formik>
-      )}
+      )*/}
     </div>
     </div>
   )
