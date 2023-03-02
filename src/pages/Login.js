@@ -24,23 +24,17 @@ function Login() {
         }
        axios.post('http://localhost:3001/auth/login', data, { withCredentials: true })
         .then(response => {
-         //console.log('token', cookies.get('token'))
-
-         // console.log(response.data)
           localStorage.setItem('token', response.data.token)
           setAuthState({
             status: true,
             username: response.data.username
           })
-          //cookies.set('token', 'Pacman', { sameSite: 'strict', path: '/', expires: new Date(Date.now()+2000), httpOnly: true })
           navigate('/')
         })
         .catch((err) => {
-         // console.log(err)
                 document.getElementById('message').innerHTML=err.response.data.error
                 setAuthState({
                   status: false,
-                //  id: 0,
                   username: ''
                 })
             }
