@@ -7,7 +7,7 @@
  height: 100vh;
   overflow: hidden !important;
   .link {
-    text-decoration: none
+    text-decoration: none;
   }
   .fw-mbold {
     font-weight: 600;
@@ -97,6 +97,12 @@
 }
 .pt-02 {
   padding-top: .4rem;
+}
+.ps-025 {
+  padding-left: 1.1vw !important;
+}
+.pe-025 {
+  padding-right: 1.1vw !important;
 }
 .h100 {
   height: 100%;

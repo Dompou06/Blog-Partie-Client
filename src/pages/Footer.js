@@ -1,8 +1,12 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Footer() {
   let navigate = useNavigate()
+  const openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
+  }
   return (
     <div className='footer d-flex justify-content-between ps-4 pe-2 pt-2 bg-fonce text-light fw-mbold'>
         <div className='text-decoration-none text-light'
@@ -22,7 +26,9 @@ function Footer() {
         onClick={() => {
           navigate('/legalnotice', {state: 'En construction'})
          }}>Mentions légales</div>
-      <div>© DPStudio 2023</div>
+      <div>
+      <Link href="https://dpstudio.fr/" className='link text-light' onClick = {() => openInNewTab('https://dpstudio.fr/')}>© DPStudio 2023</Link>        
+        </div>
     </div>
   )
 }

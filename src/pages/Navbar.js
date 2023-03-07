@@ -65,7 +65,6 @@ function Navbar() {
         navigate('/profile')
       }
       const logout = () => {
-        localStorage.removeItem('token')
        axios.get('http://localhost:3001/auth/logout',  
        {
         headers: {
@@ -73,6 +72,7 @@ function Navbar() {
        }
        }, { withCredentials: true }
           )
+        localStorage.removeItem('token')        
         setAuthState({
           status: false,
           username: ''

@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# Blog Partie Client
+Appli fullstack réalisée avec NodeJs et ReactJs. 
+---
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Contents
+* [Stack utilisée](#Stack-utilisée)
+* [Prérequis](#Prérequis)
+* [Démarrage rapide](#Démarrage-rapide)
+* [Exécution](#Exécution)
+* [Auteur](#Auteur)s
 
-## Available Scripts
+## Stack utilisée
+- Create-react-app + Axios + React-router-dom
+- Saas + Bootstrap 5
+- Formik + Yup
+- Axios (en communication avec Blog Partie Serveur)
 
-In the project directory, you can run:
+## Prérequis
+ 1. Création d'un dossier
+ dans le terminal, atteignez votre dossier Blog (`cd Blog`). 
+ Créez un dossier frontend : `mkdir frontend`
+Afin de pouvoir exécuter l'application sur votre poste de travail, vous devez d'abord installer les dépendances suivantes :
+ 2. NPM
+#### Installation
+1.	dans le terminal, soumettre `npm install`
+---
+3. Modules nécessaires
+#### Installation
+1. dans le terminal créez un dossier, tapez `cd backend` puis `npm install dotenv` 
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Ces instructions vont vous permettre d'obtenir une copie fonctionnelle du projet sur votre poste de travail.
+---
+3. Clôner le dépôt GitHub https://github.com/Dompou06/PAC---Partie-Clients.git
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Démarrage rapide
+#### Base de données
+Se connecter au serveur **MySql** de votre choix. Exécuter la commande `CREATE DATABASE stock` puis y importer le fichier **stock.sql** fourni dans le dossier database. 
 
-### `npm test`
+Exécuter la commande `CREATE DATABASE user` puis y importer le fichier **user.sql** fourni dans le dossier database.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
+Ouvrir le dossier copié dans l’éditeur de codes. 
 
-### `npm run build`
+---
+#### Backend 
+Ouvrir le dossier backend
+1.	Modifier les données du fichier **.env.txt** selon les indications
+2.	Renommer le fichier .env.txt en **.env**
+3.	Créer dans le doccier app un dossier **dump** contenant un dossier **stocks** et un dossier **users**
+4.	Exécuter sur le terminal `cd backend`
+5.	Lancer le serveur local depuis le terminal `nodemon server.js`
+6.	Copier l’url du serveur local en fonction (ex : `http://localhost:3000`)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Frontend
+Ouvrir le dossier frontend
+1.	Modifier la ligne VUE_APP_BASE_UR du fichier .env.txt en inscrivant l’url du serveur local avant /api/
+2.  Renommer le fichier .env.txt en **.env**
+3.	Exécuter sur un nouveau terminal `cd frontend`
+4.	Lancer le serveur local depuis le terminal `npm run serve`
+5.	Copier l’url où l’application peut fonctionner en local (ex : `http://localhost:8080/`)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Tests API
+L’ensemble des requêtes envoyées par le frontend au backend sont à retrouver sur la <a href="https://documenter.getpostman.com/view/14239369/2s847HNXjr" target="_blank">documentation Postman</a>
 
-### `npm run eject`
+## Exécution
+Dans votre navigateur,  ouvrir une page à l’url `http://localhost:8080/`.
+Sans être inscrit, vous pouvez naviguer dans l’application. Seule la partie commande exige une inscription. Celle-ci peut avoir lieu à tout moment.
+### Inscription
+1. Votre *email* devra être valide et ne pas être déjà inscrit dans la base de données.
+2. Votre *password* devra comporter 8 à 15 signes ainsi qu'au moins une lettre minuscule et une majuscule, un chiffre et un caractère spécial équivalent à -, +, !, *, $, @, % ou _
+### Connexion
+1. Vous devez vous être déjà inscrit.
+2. Au bout de cinq essais de mots de passe invalides, pendant une minute, les nouvelles tentatives sont rejetées.
+3. En cas de mot de passe oublié, un email sera envoyé à l’adresse email de l’utilisateur. Vous avez 24 h pour vous rendre vers l’url indiqué dans le mail pour modifier votre mot de passe. Au-delà de ce délai, vous ne pourrez plus le modifier, sauf si vous rééditez la manipulation depuis le début.
+### Sauvegarde
+Une sauvegarde hedomadaire des bases de données est programmée.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
+## Auteur
+Pourrière Dominique
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

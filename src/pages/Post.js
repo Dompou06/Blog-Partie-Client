@@ -19,26 +19,32 @@ function Post() {
 
     useEffect(() => { 
         const getPost = async () => {
-            const response = await
+ let response = ''      
+ if(authState.status) {
+response = await
+            axios.get(`http://localhost:3001/posts/validbyId/${id}`, {
+              headers: {
+                accessToken: localStorage.getItem('token')
+              }
+            }, { withCredentials: true })
+          } else {
+             response = await
             axios.get(`http://localhost:3001/posts/byId/${id}`)
-            let post = response.data
-           // console.log(response.data)
+          }
+            let post = response.data.post
+           // console.log(response.data.right)
             const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
             const createdAt = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
             post.createdAt = createdAt
             const updatedAt = new Date(post.updatedAt).toLocaleDateString('fr-FR', options)
             post.updatedAt = updatedAt
-            post.username = response.data.User.username
+            post.username = response.data.post.User.username
             //console.log(post)
             setPost(post)
             setPostLenght(post.Likes.length)
-            post.Likes.map(liked => {
-              if(liked.UserId != authState.id) {
-            setPostLiked(true)
-              } else {
-            setPostLiked(false)
-              }
-            })
+            //post.Likes.map(liked => {
+            setPostLiked(response.data.likeRight)
+           // })
             //console.log(response.data)
            // console.log(authState)
         }
@@ -121,11 +127,11 @@ const likeAPost = () => {
       localStorage.setItem('token', response.data.token)
     } 
     if(postLiked) {
-  setPostLiked(false)
-  setPostLenght(postLenght + 1)
-} else {
   setPostLiked(true)
   setPostLenght(postLenght - 1)
+} else {
+  setPostLiked(false)
+  setPostLenght(postLenght + 1)
 } // console.log(postLenght)
 
   }).catch(() => {
@@ -228,7 +234,7 @@ const likeAPost = () => {
             {authState.status && (
           <button className='btn bg-warning btn-noradius text-secondary'
           onClick={() => {likeAPost()}}>
-            { postLiked ? <FontAwesomeIcon icon={faThumbsUp} /> : <FontAwesomeIcon icon={faThumbsDown} /> }</button>
+            { postLiked ? <FontAwesomeIcon icon={faThumbsDown} /> : <FontAwesomeIcon icon={faThumbsUp} /> }</button>
             )}
             </div>
     </div>

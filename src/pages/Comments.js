@@ -15,9 +15,20 @@ let navigate = useNavigate()
 //setComments(data.data)
    //console.log('data', data.data)
    const getComments = async () => {
-    const response = await
+    //let response = ''
+   /* if(authState.status) {
+      console.log(authState.status)
+      response = await
+      axios.get(`http://localhost:3001/comments/validuser/${data.data}`, {
+        headers: {
+          accessToken: localStorage.getItem('token')
+        }
+      }, { withCredentials: true })
+    } else {*/
+     const response = await
     axios.get(`http://localhost:3001/comments/${data.data}`)
-   // console.log(response.data)
+ // }
+    //console.log(response.data)
     setComments(response.data)
 }
 getComments() 

@@ -35,7 +35,7 @@ if(response.data.token) {
           })*/
           //posts = response.data.userInfo.Posts
           } 
-console.log('yes', response.data.basicInfo.presentation)
+//console.log('yes', response.data.basicInfo.presentation)
           setAuthor({
             username: response.data.basicInfo.username,
             presentation: response.data.basicInfo.presentation,
@@ -50,8 +50,8 @@ console.log('yes', response.data.basicInfo.presentation)
           posts = response.data.basicInfo.Posts
           setListOfPosts(posts)
          })
-         .catch(response => {
-          console.log('no', response)
+         .catch(() => {
+       //   console.log('no', response)
           setAuthState({
             status: false,
             username: ''
@@ -127,13 +127,46 @@ const update = (option) => {
      // document.getElementById(`input${option}`).classList.add('hidden')
       })
       }
+      const deleteAcount = () => {
+        console.log('delete')
+       axios.delete('http://localhost:3001/auth', {
+          headers: {
+            accessToken: localStorage.getItem('token')
+          }
+        }, { withCredentials: true })
+        localStorage.removeItem('token')        
+        setAuthState({
+          status: false,
+          username: ''
+        })
+        navigate('/')
+      }
 
   return (
        <div className='container-profile'>
         <div className='d-flex flex-column shadow bg-body rounded form profile'>
-        <div className='bg-moyen text-white text-center'>
-            <h4 className='fw-bold'>{authState.username}</h4>
+        <div className='bg-moyen text-white text-center d-flex justify-content-between'>
+            <h4 className='flex-fill fw-bold text-center'>{authState.username}</h4>
+            <button type='button' className='btn btn-danger btn-noradius fw-bold ps-025 pe-025' 
+             data-bs-toggle="modal" data-bs-target="#deleteModal"
+             >X</button>
           </div>
+
+          <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-body text-center">
+        Souhaitez-vous réellement supprimer votre compte ?
+        <div className='d-flex justify-content-evenly pt-3 ps-5 pe-5'>
+        <button type="button" onClick={deleteAcount} className="btn btn-danger btn-noradius fw-bold" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-warning btn-noradius fw-bold" data-bs-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
           <div className='d-flex'>
             <div className='col-4 btn btn-secondary text-white fw-bold text-end pe-2 btn-noradius nocursor'>
               <span className=''>Présentation</span>
