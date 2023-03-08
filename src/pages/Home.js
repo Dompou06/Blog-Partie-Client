@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
-//import { AuthContext } from '../helpers/AuthContext'
+import Pagination from './Pagination'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faMessage } from '@fortawesome/free-solid-svg-icons'
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
@@ -9,11 +9,17 @@ import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 function Home() {
   let navigate = useNavigate()
     const [listOfPosts, setListOfPosts] = useState([])
+   // const [pagination, setPagination] = useState(0)
+    //const [currentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage] = useState(4)
+    //const [postsPerPage, setpostsPerPage] = useState(4)
    
   useEffect(() => {
         axios.get('http://localhost:3001/posts')
     .then(response => {
-   //   console.log(response)
+     // console.log(response.data)
+     
       let lOP = response.data
       const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
       lOP.forEach(post => {
@@ -22,12 +28,16 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
       setListOfPosts(lOP)
     })
   },[])
- 
+ const indexOfLastPost = currentPage * postsPerPage
+ const indexOfFirstPost = indexOfLastPost - postsPerPage
+ const currentPosts = listOfPosts.slice(indexOfFirstPost, indexOfLastPost)
+const paginate = (pageNumber) => setCurrentPage(pageNumber)
+
   return (
-    <div className='container-home'>
-      {listOfPosts.map((post, key) => {
+    <div className='container-home d-flex flex-column'>
+      {currentPosts.map((post, key) => {
         return <div 
-        className='d-flex flex-column box-shadow mb-3 bg-body rounded posts' 
+        className='mb-auto d-flex flex-column box-shadow bg-body rounded posts' 
         key={key}>
          <Link to={`/post/${post.id}`} className='link bg-moyen text-white text-center fw-bold'>
           {post.title}</Link>
@@ -75,6 +85,12 @@ post.created = new Date(post.createdAt).toLocaleDateString('fr-FR', options)
         </div>
           </div>
       })}
+     <Pagination
+        total={listOfPosts.length}
+        postsPerPage={postsPerPage}
+        currentPage={currentPage}
+        paginate={paginate} 
+        />
     </div>
   )
 }

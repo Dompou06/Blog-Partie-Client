@@ -131,3 +131,26 @@ input, textarea {
   display: block;
   margin: auto;
 }
+//Pour pagination
+
+.pagination {
+  .active {
+  background-color: darken($cyan, 30) !important;
+  color: white !important;
+}
+.page-link {
+  border: 0px !important;
+  border-radius: 0 !important;
+}
+.page-link:not(.active) {
+  color: darken($cyan, 30) !important;
+}
+.page-link:hover:not(.active) {
+  background-color: lighten($cyan, 45) !important;
+}
+.disabled {
+   // background-color: red !important;
+  //color: lighten($cyan, 45) !important;
+  opacity: 0;
+}
+}
