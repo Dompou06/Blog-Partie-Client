@@ -35,9 +35,10 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
   return (
     <div className='container-home d-flex flex-column'>
-      {currentPosts.map((post, key) => {
+      <div className='mb-auto d-flex flex-column justify-content-start posts'>
+        {currentPosts.map((post, key) => {
         return <div 
-        className='mb-auto d-flex flex-column box-shadow bg-body rounded posts' 
+        className='d-flex flex-column box-shadow bg-body rounded mb-3' 
         key={key}>
          <Link to={`/post/${post.id}`} className='link bg-moyen text-white text-center fw-bold'>
           {post.title}</Link>
@@ -51,7 +52,6 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber)
   {post.Comments.length}
   </span>
 </div>}
-          
           </Link>
           <div className='d-flex bg-moyen rounded-bottom ps-2'>
           <div className='link flex-fill text-white text-start d-flex justify-content-between'
@@ -75,16 +75,12 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber)
             {post.Likes.length >= 5 ? <FontAwesomeIcon icon={faStar} /> :  
             <FontAwesomeIcon icon={farStar} />} 
             </div>
-            {/*authState.id != 0 && likedPosts != [] && (
-          <div className='bg-warning text-moyen cursor ps-1 pe-1'>
-            {likedPosts.includes(post.id) ? <FontAwesomeIcon icon={faThumbsDown} onClick={() => {likeAPost(post.id)}} /> 
-            : <FontAwesomeIcon icon={faThumbsUp} onClick={() => {likeAPost(post.id)}} />}
-            </div>            
-            )*/}
         </div>
         </div>
-          </div>
+        </div>
+          
       })}
+      </div>
      <Pagination
         total={listOfPosts.length}
         postsPerPage={postsPerPage}
