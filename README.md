@@ -19,7 +19,7 @@
 
 ## Prérequis
 
-1. Backend et Base de données installés à partir du dépôt Github Blog Partie Serveur :
+1. Backend et Base de données installés à partir du dépôt Github Blog Partie Serveur : <a href="https://github.com/Dompou06/Blog-Partie-Serveur" target="_blank">https://github.com/Dompou06/Blog-Partie-Serveur</a>
 
 ---
 
@@ -52,12 +52,16 @@
 
 ## Ces instructions vont vous permettre d'obtenir une copie fonctionnelle du projet sur votre poste de travail.
 
-3. Clôner le dépôt GitHub https://github.com/Dompou06/PAC---Partie-Clients.git
+3. Clôner le dépôt GitHub <a href="https://github.com/Dompou06/Blog-Partie-Serveur" target="_blank">https://github.com/Dompou06/Blog-Partie-Serveur</a>
 
 ## Démarrage rapide
 
-Assurez-vous que le serveur local est lancé 3. Exécuter sur le terminal `cd backend` 4. Lancer le serveur local depuis le terminal `npm start`
-Ouvrir le dossier frontend 3. Exécuter sur un nouveau terminal `cd frontend` 4. Lancer le serveur local depuis le terminal `npm start`
+Assurez-vous que le serveur local est lancé 
+1. Exécuter sur le terminal `cd backend`
+2. Lancer le serveur local depuis le terminal `npm start`
+Ouvrir le dossier frontend
+1. Exécuter sur un nouveau terminal `cd frontend`
+2. Lancer le serveur local depuis le terminal `npm start`
 
 ## Exécution
 
