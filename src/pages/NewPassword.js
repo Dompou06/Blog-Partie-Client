@@ -6,14 +6,14 @@ import { useNavigate } from 'react-router-dom'
 function NewPassword() {
     let navigate = useNavigate()
 
-    let { id } = useParams()
+    let { idPage } = useParams()
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const [ msg, setMsg ] = useState('')
 
     const resetPassword = () => {
         const data = {
-            id: id,
+            id: idPage,
             email: email,
             newpassword: password
         }

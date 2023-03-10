@@ -27,11 +27,18 @@ axios.defaults.withCredentials = true
  
 function App() {
   createPopper
+  /**
+* Etat d'authentification 
+* @param {Boolean} some status
+* @param {String} some username
+* @return { Object }
+*/
   const [authState, setAuthState] = useState({
     status: false,
     username: ''
   })
   useEffect(() => {
+    //Changement d'état d'authentification
     if(localStorage.getItem('token')) {
       axios.get('http://localhost:3001/auth/auth', {
        headers: {
@@ -40,7 +47,6 @@ function App() {
       }, { withCredentials: true })
       .then(response => {
         if(response.data.error) {
-         // console.log('errorresponseauth', response.data.error)
           localStorage.removeItem('token')
           setAuthState({
             status: false,

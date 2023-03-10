@@ -1,83 +1,72 @@
 # Blog Partie Client
-Appli fullstack réalisée avec NodeJs et ReactJs. 
----
+
+## Appli fullstack réalisée avec NodeJs et ReactJs.
 
 ## Contents
-* [Stack utilisée](#Stack-utilisée)
-* [Prérequis](#Prérequis)
-* [Démarrage rapide](#Démarrage-rapide)
-* [Exécution](#Exécution)
-* [Auteur](#Auteur)s
+
+- [Stack utilisée](#Stack-utilisée)
+- [Prérequis](#Prérequis)
+- [Démarrage rapide](#Démarrage-rapide)
+- [Exécution](#Exécution)
+- [Auteur](#Auteur)s
 
 ## Stack utilisée
+
 - Create-react-app + Axios + React-router-dom
 - Saas + Bootstrap 5
 - Formik + Yup
 - Axios (en communication avec Blog Partie Serveur)
 
 ## Prérequis
- 1. Création d'un dossier
- dans le terminal, atteignez votre dossier Blog (`cd Blog`). 
- Créez un dossier frontend : `mkdir frontend`
-Afin de pouvoir exécuter l'application sur votre poste de travail, vous devez d'abord installer les dépendances suivantes :
- 2. NPM
-#### Installation
-1.	dans le terminal, soumettre `npm install`
----
-3. Modules nécessaires
-#### Installation
-1. dans le terminal créez un dossier, tapez `cd backend` puis `npm install dotenv` 
 
+1. Backend et Base de données installés à partir du dépôt Github Blog Partie Serveur :
 
-Ces instructions vont vous permettre d'obtenir une copie fonctionnelle du projet sur votre poste de travail.
 ---
+
+2. Création d'un dossier
+   dans le terminal, atteignez votre dossier Blog (`cd Blog`).
+   Créez un dossier frontend : `mkdir frontend`
+
+---
+
+3. Installer
+   React : `npx create-react-app .`
+   NPM : `npm install`
+   Modules : `npm i bootstrap eslint react-router-dom formik yup @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @fortawesome/free-regular-svg-icons sass @popperjs/core axios`
+
+- 1. bootstrap
+- 2. eslint
+- 3. react-router-dom
+- 4. formik
+- 5. yup
+- 6. fontawesome
+- 7. sass
+- 8. popper
+- 9. axios
+  ***
+
+3. Initialiser eslint : ` ./node_modules/.bin/eslint --init`
+   Framework : React
+   TypeScript: No
+   Config file : JSON
+
+## Ces instructions vont vous permettre d'obtenir une copie fonctionnelle du projet sur votre poste de travail.
+
 3. Clôner le dépôt GitHub https://github.com/Dompou06/PAC---Partie-Clients.git
 
 ## Démarrage rapide
-#### Base de données
-Se connecter au serveur **MySql** de votre choix. Exécuter la commande `CREATE DATABASE stock` puis y importer le fichier **stock.sql** fourni dans le dossier database. 
 
-Exécuter la commande `CREATE DATABASE user` puis y importer le fichier **user.sql** fourni dans le dossier database.
-
----
-Ouvrir le dossier copié dans l’éditeur de codes. 
-
----
-#### Backend 
-Ouvrir le dossier backend
-1.	Modifier les données du fichier **.env.txt** selon les indications
-2.	Renommer le fichier .env.txt en **.env**
-3.	Créer dans le doccier app un dossier **dump** contenant un dossier **stocks** et un dossier **users**
-4.	Exécuter sur le terminal `cd backend`
-5.	Lancer le serveur local depuis le terminal `nodemon server.js`
-6.	Copier l’url du serveur local en fonction (ex : `http://localhost:3000`)
-
-#### Frontend
-Ouvrir le dossier frontend
-1.	Modifier la ligne VUE_APP_BASE_UR du fichier .env.txt en inscrivant l’url du serveur local avant /api/
-2.  Renommer le fichier .env.txt en **.env**
-3.	Exécuter sur un nouveau terminal `cd frontend`
-4.	Lancer le serveur local depuis le terminal `npm run serve`
-5.	Copier l’url où l’application peut fonctionner en local (ex : `http://localhost:8080/`)
-
-
-## Tests API
-L’ensemble des requêtes envoyées par le frontend au backend sont à retrouver sur la <a href="https://documenter.getpostman.com/view/14239369/2s847HNXjr" target="_blank">documentation Postman</a>
+Assurez-vous que le serveur local est lancé 3. Exécuter sur le terminal `cd backend` 4. Lancer le serveur local depuis le terminal `npm start`
+Ouvrir le dossier frontend 3. Exécuter sur un nouveau terminal `cd frontend` 4. Lancer le serveur local depuis le terminal `npm start`
 
 ## Exécution
-Dans votre navigateur,  ouvrir une page à l’url `http://localhost:8080/`.
-Sans être inscrit, vous pouvez naviguer dans l’application. Seule la partie commande exige une inscription. Celle-ci peut avoir lieu à tout moment.
-### Inscription
-1. Votre *email* devra être valide et ne pas être déjà inscrit dans la base de données.
-2. Votre *password* devra comporter 8 à 15 signes ainsi qu'au moins une lettre minuscule et une majuscule, un chiffre et un caractère spécial équivalent à -, +, !, *, $, @, % ou _
-### Connexion
-1. Vous devez vous être déjà inscrit.
-2. Au bout de cinq essais de mots de passe invalides, pendant une minute, les nouvelles tentatives sont rejetées.
-3. En cas de mot de passe oublié, un email sera envoyé à l’adresse email de l’utilisateur. Vous avez 24 h pour vous rendre vers l’url indiqué dans le mail pour modifier votre mot de passe. Au-delà de ce délai, vous ne pourrez plus le modifier, sauf si vous rééditez la manipulation depuis le début.
-### Sauvegarde
-Une sauvegarde hedomadaire des bases de données est programmée.
+
+Dans votre navigateur, la page d'accueil vient de s'ouvrir.
+Sans être inscrit, vous pouvez naviguer dans l’application. Mais comme aucun post ne figure actuellement dans la base de données, vous devez vous inscrire pour en créer un.
+Bonne visite
 
 ---
-## Auteur
-Pourrière Dominique
 
+## Auteur
+
+Pourrière Dominique

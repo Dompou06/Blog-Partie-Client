@@ -7,10 +7,10 @@ const pagesNumbers = []
     pagesNumbers.push(i)
    }
 const lastPage = pagesNumbers[pagesNumbers.length - 1]
-  // console.log('pagesNumbers', pagesNumbers)
-    //const pages = '' 
-  return (  
-    <ul className='posts pagination justify-content-center fw-bold'> 
+
+  return (
+    <div>  
+    {pagesNumbers.length > postsPerPage && <ul className='posts pagination justify-content-center fw-bold'> 
     <li className='page-item'>
       <a onClick={() => paginate(currentPage-1)} className={currentPage === 1 ? 'page-link disabled' : 'page-link'}> &lt; </a>
     </li>
@@ -24,7 +24,10 @@ const lastPage = pagesNumbers[pagesNumbers.length - 1]
     <li className="page-item">
       <a onClick={() => paginate(currentPage+1)} className={currentPage === lastPage ? 'page-link disabled' : 'page-link'}> &gt; </a>
     </li>
+   
     </ul>
+    }
+    </div>
   )
 }
 

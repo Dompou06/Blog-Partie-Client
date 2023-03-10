@@ -3,84 +3,101 @@ import React, { useState, useContext } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../helpers/AuthContext'
-//import Cookies from 'universal-cookie'
-    axios.defaults.withCredentials = true
+
+axios.defaults.withCredentials = true
 
 function Login() {
-  let navigate = useNavigate()
- // const cookies = new Cookies()
+ let navigate = useNavigate()
 
-    const [ email, setEmail ] = useState('')
-    const [ password, setPassword ] = useState('')
-    const [ rememberMe, setRememberMe ] = useState(false)
-   //const { authState, setAuthState } = useContext(AuthContext)
-    const { setAuthState } = useContext(AuthContext)
+ const [email, setEmail] = useState('')
+ const [password, setPassword] = useState('')
+ const [rememberMe, setRememberMe] = useState(false)
+ const { setAuthState } = useContext(AuthContext)
 
-    const login = () => {
-        const data = {
-            email: email,
-            password: password,
-            remember: rememberMe
-        }
-       axios.post('http://localhost:3001/auth/login', data, { withCredentials: true })
-        .then(response => {
-          localStorage.setItem('token', response.data.token)
-          setAuthState({
-            status: true,
-            username: response.data.username
-          })
-          navigate('/')
-        })
-        .catch((err) => {
-                document.getElementById('message').innerHTML=err.response.data.error
-                setAuthState({
-                  status: false,
-                  username: ''
-                })
-            }
-            )
-    }
-  return (
-    <div className='pt-5'>
-        <div className='d-flex flex-column shadow bg-body rounded form'>
-        <div className='bg-moyen text-white text-center'>
-            <h4 className='fw-bold'>Connection</h4>
-          </div>
-          <div className='d-flex'>
-           <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Email</label>
-            <input type="email" className='form-control'
-            value={email}
-             onChange={e => {
-                setEmail(e.target.value)
-            }} />
-            </div>
-          <div className='d-flex'>
-            <label className='col-3 bg-moyen text-white fw-bold text-end pe-2'>Mot de passe</label>
-            <input type="password" className='form-control'
-            value={password}
-             onChange={e => {
-              setPassword(e.target.value)
-            }} />
-            </div>
-            <div className='d-flex bg-moyen'>
-              <div className='btn btn-secondary text-light btn-noradius novisible'>Mot de passe oublié</div>
-              <div className='flex-fill align-self-center d-flex justify-content-center'>
-                <input type='checkbox' className='no-border'
-            value={rememberMe}
-             onChange={e => {
-              setRememberMe(e.target.checked)
-            }}  />
-                <label className='text-light ms-2'>Se souvenir de moi</label></div>
-              <div>
-            <Link to='/forget' className='btn btn-secondary text-light btn-noradius'>Mot de passe oublié</Link>
-              </div>
-
-            </div>
-            <div id="message" className='text-danger fw-bold text-center'></div>
-            <button onClick={login} className='btn btn-success fw-bold btn-noradius'>Valider</button>
-        </div>
+ const login = () => {
+  const data = {
+   email: email,
+   password: password,
+   remember: rememberMe
+  }
+  axios
+   .post('http://localhost:3001/auth/login', data, { withCredentials: true })
+   .then((response) => {
+    localStorage.setItem('token', response.data.token)
+    setAuthState({
+     status: true,
+     username: response.data.username
+    })
+    navigate('/')
+   })
+   .catch((err) => {
+    document.getElementById('message').innerHTML = err.response.data.error
+    setAuthState({
+     status: false,
+     username: ''
+    })
+   })
+ }
+ return (
+  <div className="pt-5">
+   <div className="d-flex flex-column shadow bg-body rounded form">
+    <div className="bg-moyen text-white text-center">
+     <h4 className="fw-bold">Connection</h4>
     </div>
-  )
+    <div className="d-flex">
+     <label className="col-3 bg-moyen text-white fw-bold text-end pe-2">
+      Email
+     </label>
+     <input
+      type="email"
+      className="form-control"
+      value={email}
+      onChange={(e) => {
+       setEmail(e.target.value)
+      }}
+     />
+    </div>
+    <div className="d-flex">
+     <label className="col-3 bg-moyen text-white fw-bold text-end pe-2">
+      Mot de passe
+     </label>
+     <input
+      type="password"
+      className="form-control"
+      value={password}
+      onChange={(e) => {
+       setPassword(e.target.value)
+      }}
+     />
+    </div>
+    <div className="d-flex bg-moyen">
+     <div className="btn btn-secondary text-light btn-noradius novisible">
+      Mot de passe oublié
+     </div>
+     <div className="flex-fill align-self-center d-flex justify-content-center">
+      <input
+       type="checkbox"
+       className="no-border"
+       value={rememberMe}
+       onChange={(e) => {
+        setRememberMe(e.target.checked)
+       }}
+      />
+      <label className="text-light ms-2">Se souvenir de moi</label>
+     </div>
+     <div>
+      <Link to="/forget" className="btn btn-secondary text-light btn-noradius">
+       Mot de passe oublié
+      </Link>
+     </div>
+    </div>
+    <div id="message" className="text-danger fw-bold text-center"></div>
+    <button onClick={login} className="btn btn-success fw-bold btn-noradius">
+     Valider
+    </button>
+   </div>
+  </div>
+ )
 }
 
 export default Login
